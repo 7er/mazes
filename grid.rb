@@ -2,9 +2,9 @@ require 'cell'
 
 class Grid
   attr_reader :rows, :columns
-  def initialize(x, y)
-    @rows = x
-    @columns = y
+  def initialize(row_count, column_count)
+    @rows = row_count
+    @columns = column_count
     @grid = self.prepare_grid
     self.configure_cells
   end
@@ -12,7 +12,7 @@ class Grid
   def prepare_grid
     Array.new(@rows) do |row|
       Array.new(@columns) do |column|
-        Cell.new(row, column)
+        Cell.new(row, column)        
       end
     end
   end
@@ -33,7 +33,7 @@ class Grid
       
 
   def [](row, column)
-    return nil unless self.valid_cell_at?(row, column)    
+    return nil unless self.valid_cell_at?(row, column)
     @grid[row][column]
   end
 
