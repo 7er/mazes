@@ -8,39 +8,27 @@ class BinaryTree
     @grid = grid
   end
 
-  def north(col, row)
-    cell = @grid[col, row]
+  def north(cell)
     cell.link(cell.north)
   end
 
-  def east(col, row)
-    cell = @grid[col, row]
+  def east(cell)
     cell.link(cell.east)
   end
 
-  def perform_
+  def perform
     @grid.each_cell do |cell|
       unless cell.north # top row
         self.east(cell) if cell.east
+        next
       end
       symbol = if cell.east
                  [:east, :north].sample
                else
                  :north
+               end
       self.send(symbol, cell)      
+    end
   end
-
-  def perform
-    (0...@grid.columns - 1).each do |col|
-      self.east(0, col)      
-    end
-    (1...@grid.rows).each do |row|
-      (0...@grid.columns - 1).each do |col|
-          symbol = [:east, :north].sample
-          self.send(symbol, row, col)
-      end
-      self.north(row, @grid.columns - 1)
-    end
-  end    
 end
    

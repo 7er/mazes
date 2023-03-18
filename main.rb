@@ -7,28 +7,28 @@ def example1
   puts grid
   puts "\n"
   algorithm = BinaryTree.new(grid)
-  algorithm.north(3, 0)
-  algorithm.east(3, 1)
-  algorithm.east(3, 2)
-  algorithm.north(3, 3)
+  algorithm.north(grid[3, 0])
+  algorithm.east(grid[3, 1])
+  algorithm.east(grid[3, 2])
+  algorithm.north(grid[3, 3])
   puts grid
   puts "\n"
-  algorithm.east(2, 0)
-  algorithm.north(2, 1)
-  algorithm.north(2, 2)
-  algorithm.north(2, 3)
+  algorithm.east(grid[2, 0])
+  algorithm.north(grid[2, 1])
+  algorithm.north(grid[2, 2])
+  algorithm.north(grid[2, 3])
   puts grid
   puts "\n"
-  algorithm.east(1, 0)
-  algorithm.north(1, 1)
-  algorithm.east(1, 2)
-  algorithm.north(1, 3)
+  algorithm.east(grid[1, 0])
+  algorithm.north(grid[1, 1])
+  algorithm.east(grid[1, 2])
+  algorithm.north(grid[1, 3])
   puts grid
   puts "\n"
-  algorithm.east(0, 0)
-  algorithm.east(0, 1)
-  algorithm.east(0, 2)
-  #algorithm.east(0, 3)
+  algorithm.east(grid[0, 0])
+  algorithm.east(grid[0, 1])
+  algorithm.east(grid[0, 2])
+  #algorithm.east(grid[0, 3])
   puts grid
   puts "\n"
 
@@ -42,7 +42,7 @@ def example2
   img.save("maze.png")
 end
 
-#example1
+example1
 
 example2
 
