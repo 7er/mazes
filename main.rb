@@ -35,7 +35,7 @@ def example1
 end
 
 def example2
-  grid = Grid.new(10, 10)
+  grid = Grid.new(5, 5)
   BinaryTree.on(grid)
   puts grid
   img = grid.to_png

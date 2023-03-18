@@ -16,18 +16,18 @@ class BinaryTree
     cell.link(cell.east)
   end
 
+  def north_and_east_neighbors(cell)
+    list = []
+    [cell.north, cell.east].each do |dir|
+      list << dir if dir
+    end
+    list
+  end
+
   def perform
     @grid.each_cell do |cell|
-      unless cell.north # top row
-        self.east(cell) if cell.east
-        next
-      end
-      symbol = if cell.east
-                 [:east, :north].sample
-               else
-                 :north
-               end
-      self.send(symbol, cell)      
+      neighbor = north_and_east_neighbors(cell).sample
+      neighbor.link(cell) if neighbor
     end
   end
 end

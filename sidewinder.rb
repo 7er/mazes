@@ -22,6 +22,29 @@ class Sidewinder
     cell.link(cell.east)
   end
 
+  def north_and_east_neighbors(cell)
+    list = []
+    [cell.north, cell.east].each do |dir|
+      list << dir if dir
+    end
+    list
+  end  
+
+  def perform_
+    @grid.each_cell do |cell|
+      if cell.north
+        neighbors = self.north_and_east_neighbors(cell)
+        neighbor = neighbors.sample
+        
+      else
+        if cell.east
+          self.east(cell)
+        else
+          @run = []
+      end
+    end
+  end
+
   def perform
     (0...@grid.columns - 1).each do |col|
       self.east(0, col)
