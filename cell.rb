@@ -7,6 +7,19 @@ class Cell
     @links = {}
   end
 
+  def distances
+    result = Hash.new
+    self.update_distances(self, 0, result)
+    result
+  end
+
+  def update_distances(parent, distance, distances)
+    distances[self] = distance
+    self.links.each do |cell|
+      cell.update_distances(self, distance + 1, distances) if parent != cell
+    end
+  end
+
   def link(cell, bidi=true)
     @links[cell] = true
     cell.link(self, false) if bidi

@@ -83,6 +83,29 @@ class Grid
     output
   end
 
+  def to_s_with_distances(distances)
+    output = "+" + "---+" * columns + "\n"
+    each_row do |row|
+      top = "|"
+      bottom = "+"
+
+      row.each do |cell|
+        # 3 spaces
+        distance = distances[cell]
+        body = " " * 3
+        east_boundary = (cell.linked?(cell.east) ? " " : "|")
+        top << " " + distance.to_s + " " << east_boundary
+        # three spaces below too"
+        south_boundary = (cell.linked?(cell.south) ? body : "---")
+        corner = "+"
+        bottom << south_boundary << corner
+      end
+      output << top << "\n" << bottom << "\n"
+    end
+    output
+  end
+
+
   def to_png(cell_size: 10)
     img_width = cell_size * columns
     img_height = cell_size * rows

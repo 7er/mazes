@@ -42,9 +42,9 @@ def example2
   img.save("maze.png")
 end
 
-example1
+#example1
 
-example2
+#example2
 
 def sidewinder_demo
   grid = Grid.new(4, 4)
@@ -52,6 +52,15 @@ def sidewinder_demo
   puts grid
 end
 
+def sidewinder_demo_distances
+  grid = Grid.new(4, 4)
+  Sidewinder.on(grid)
+  puts grid
+  corner = grid[0, 0]
+  distances = corner.distances
+  puts grid.to_s_with_distances(distances)
+end
+  
 sidewinder_demo
-
-
+sidewinder_demo
+sidewinder_demo_distances
