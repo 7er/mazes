@@ -44,23 +44,33 @@ end
 
 #example1
 
-#example2
+example2
 
 def sidewinder_demo
-  grid = Grid.new(4, 4)
-  Sidewinder.on(grid)
-  puts grid
+  puts generate_sidewinder
 end
 
-def sidewinder_demo_distances
+def generate_sidewinder
   grid = Grid.new(4, 4)
   Sidewinder.on(grid)
-  puts grid
+  grid
+end
+
+def demo_distances(grid)
   corner = grid[0, 0]
   distances = corner.distances
   puts grid.to_s_with_distances(distances)
 end
+
+def demo_path(grid)
+  corner = grid[0, 0]
+  distances = corner.distances
+  img = grid.to_png_with_distances(distances)
+  img.save("distances.png")
+end
   
 sidewinder_demo
-sidewinder_demo
-sidewinder_demo_distances
+grid = generate_sidewinder
+puts grid
+demo_distances(grid)
+demo_path(grid)
