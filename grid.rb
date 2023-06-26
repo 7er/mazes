@@ -102,14 +102,15 @@ class Grid
     output
   end
 
+  def create_background_png(img_width, img_height)
+    background = ChunkyPNG::Color::WHITE
+    ChunkyPNG::Image.new(img_width + 1, img_height + 1, background)
+  end
+
   def to_png(cell_size: 10)
     img_width = cell_size * columns
     img_height = cell_size * rows
-
-    background = ChunkyPNG::Color::WHITE
-
-    img = ChunkyPNG::Image.new(img_width + 1, img_height + 1, background)
-
+    img = create_background_png(img_width, img_height)
     each_cell do |cell|
       rect = cell.create_rect(img, cell_size)
       rect.draw_walls
@@ -121,10 +122,7 @@ class Grid
     img_width = cell_size * columns
     img_height = cell_size * rows
 
-    background = ChunkyPNG::Color::WHITE
-
-    img = ChunkyPNG::Image.new(img_width + 1, img_height + 1, background)
-
+    img = create_background_png(img_width, img_height)  
     each_cell do |cell|
       distance = distances[cell]
       rect = cell.create_rect(img, cell_size)
