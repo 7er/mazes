@@ -48,5 +48,11 @@ class Cell
     list
   end
 
-  
+  def create_rect(img, cell_size)
+    x1 = column * cell_size
+    y1 = row * cell_size
+    x2 = (column + 1) * cell_size
+    y2 = (row + 1) * cell_size
+    CellRect.new(self, img, x1, y1, x2, y2)
+  end
 end
