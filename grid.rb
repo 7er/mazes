@@ -1,19 +1,21 @@
 require 'cell'
 require 'chunky_png'
+require 'rect'
 
 class Grid
   attr_reader :rows, :columns
+
   def initialize(row_count, column_count)
     @rows = row_count
     @columns = column_count
     @grid = self.prepare_grid
-    self.configure_cells
+    configure_cells
   end
 
   def prepare_grid
     Array.new(@rows) do |row|
       Array.new(@columns) do |column|
-        Cell.new(row, column)        
+        Cell.new(row, column)
       end
     end
   end
@@ -29,12 +31,11 @@ class Grid
   end
 
   def valid_cell_at?(row, column)
-    row.between?(0, @rows - 1) && column.between?(0, @columns -1)
+    row.between?(0, @rows - 1) && column.between?(0, @columns - 1)
   end
-      
-
+  
   def [](row, column)
-    return nil unless self.valid_cell_at?(row, column)
+    return nil unless valid_cell_at?(row, column)
     @grid[row][column]
   end
 
@@ -48,10 +49,8 @@ class Grid
     @rows * @columns
   end
 
-  def each_row
-    @grid.each do |row|
-      yield row
-    end
+  def each_row(&block)
+    @grid.each(&block)
   end
 
   def each_cell
@@ -67,7 +66,6 @@ class Grid
     each_row do |row|
       top = "|"
       bottom = "+"
-
       row.each do |cell|
         # 3 spaces
         body = " " * 3
@@ -88,7 +86,6 @@ class Grid
     each_row do |row|
       top = "|"
       bottom = "+"
-
       row.each do |cell|
         # 3 spaces
         distance = distances[cell]
@@ -130,7 +127,7 @@ class Grid
     img
   end
 
-  def to_png_with_distances(distances, cell_size: 10)
+  def to_png_with_distances(distances, cell_size: 15)
     img_width = cell_size * columns
     img_height = cell_size * rows
 
@@ -140,9 +137,10 @@ class Grid
     img = ChunkyPNG::Image.new(img_width + 1, img_height + 1, background)
 
     each_cell do |cell|
+      distance = distances[cell]
       x1 = cell.column * cell_size
       y1 = cell.row * cell_size
-      x2 = (cell.column + 1 ) * cell_size
+      x2 = (cell.column + 1) * cell_size
       y2 = (cell.row + 1) * cell_size
       rect = Rect.new(x1, y1, x2, y2)
 
@@ -150,32 +148,9 @@ class Grid
       rect.draw_west(img, wall) unless cell.west
       rect.draw_east(img, wall) unless cell.linked?(cell.east)
       rect.draw_south(img, wall) unless cell.linked?(cell.south)
+      rect.draw_number(img, distance, wall)
     end
-    img    
+    img
   end
 end
 
-class Rect
-  def initialize(x1, y1, x2, y2)
-    @x1 = x1
-    @y1 = y1
-    @x2 = x2
-    @y2 = y2
-  end
-
-  def draw_north(img, color)
-    img.line(@x1, @y1, @x2, @y1, color)
-  end
-
-  def draw_west(img, color)
-    img.line(@x1, @y1, @x1, @y2, color)
-  end
-
-  def draw_east(img, color)
-    img.line(@x2, @y1, @x2, @y2, color)
-  end
-
-  def draw_south(img, color)
-    img.line(@x1, @y2, @x2, @y2, color)
-  end
-end
