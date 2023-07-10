@@ -1,3 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH << './lib'
+
 require 'grid'
 require 'binary_tree'
 require 'sidewinder'
@@ -39,10 +44,10 @@ def example2
   BinaryTree.on(grid)
   puts grid
   img = grid.to_png
-  img.save("maze.png")
+  img.save('maze.png')
 end
 
-#example1
+# example1
 
 example2
 
@@ -66,9 +71,9 @@ def demo_path(grid)
   corner = grid[0, 0]
   distances = corner.distances
   img = grid.to_png_with_distances(distances)
-  img.save("distances.png")
+  img.save('distances.png')
 end
-  
+
 sidewinder_demo
 grid = generate_sidewinder
 puts grid
