@@ -67,7 +67,7 @@ class Cell
     result = [goal_cell]
     while result.last != self
       current = result.last
-      next_cell = current.neighbors.find { |cell| distances[cell] < distances[current] }
+      next_cell = current.links.find { |cell| distances[cell] < distances[current] }
       raise 'Hell' if next_cell.nil?
 
       result << next_cell

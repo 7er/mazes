@@ -145,11 +145,12 @@ class Grid
       distance = distances[cell]
       rect = cell.create_rect(img, cell_size)
       rect.draw_walls
-      color = if path.includes?(cell)
+      color = if path.include?(cell)
                 ChunkyPNG::Color::BLACK
               else
-                ChunkyPNG::Color::DIMGRAY
+                70
               end
+      puts color
       rect.draw_number(distance, color)
     end
     img
