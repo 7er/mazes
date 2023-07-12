@@ -1,14 +1,17 @@
+# frozen_string_literal:false
+
 require 'cell'
 require 'chunky_png'
 require 'rect'
 
+# a grid of cells
 class Grid
   attr_reader :rows, :columns
 
   def initialize(row_count, column_count)
     @rows = row_count
     @columns = column_count
-    @grid = self.prepare_grid
+    @grid = prepare_grid
     configure_cells
   end
 
@@ -33,9 +36,10 @@ class Grid
   def valid_cell_at?(row, column)
     row.between?(0, @rows - 1) && column.between?(0, @columns - 1)
   end
-  
+
   def [](row, column)
     return nil unless valid_cell_at?(row, column)
+
     @grid[row][column]
   end
 
@@ -55,7 +59,7 @@ class Grid
 
   def each_cell
     each_row do |row|
-      row.each do |cell|        
+      row.each do |cell|
         yield cell if cell
       end
     end
@@ -122,7 +126,7 @@ class Grid
     img_width = cell_size * columns
     img_height = cell_size * rows
 
-    img = create_background_png(img_width, img_height)  
+    img = create_background_png(img_width, img_height)
     each_cell do |cell|
       distance = distances[cell]
       rect = cell.create_rect(img, cell_size)
@@ -131,5 +135,23 @@ class Grid
     end
     img
   end
-end
 
+  def to_png_with_path_and_distances(path, distances, cell_size: 15)
+    img_width = cell_size * columns
+    img_height = cell_size * rows
+
+    img = create_background_png(img_width, img_height)  
+    each_cell do |cell|
+      distance = distances[cell]
+      rect = cell.create_rect(img, cell_size)
+      rect.draw_walls
+      color = if path.includes?(cell)
+                ChunkyPNG::Color::BLACK
+              else
+                ChunkyPNG::Color::DIMGRAY
+              end
+      rect.draw_number(distance, color)
+    end
+    img
+  end
+end

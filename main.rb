@@ -1,7 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env -S ruby -Ilib
 # frozen_string_literal: true
-
-$LOAD_PATH << './lib'
 
 require 'grid'
 require 'binary_tree'
@@ -36,7 +34,6 @@ def example1
   #algorithm.east(grid[0, 3])
   puts grid
   puts "\n"
-
 end
 
 def example2
@@ -67,15 +64,25 @@ def demo_distances(grid)
   puts grid.to_s_with_distances(distances)
 end
 
-def demo_path(grid)
+def demo_distances_png(grid)
   corner = grid[0, 0]
   distances = corner.distances
   img = grid.to_png_with_distances(distances)
   img.save('distances.png')
 end
 
+def demo_path(grid)
+  corner = grid[0, 0]
+  goal = grid[3, 3]
+  distances = corner.distances
+  path = corner.path_to(goal, distances)
+  img = grid.to_png_with_path_and_distances(path, distances)
+  img.save('distances_and_path.png')
+end
+
 sidewinder_demo
 grid = generate_sidewinder
 puts grid
 demo_distances(grid)
+demo_distances_png(grid)
 demo_path(grid)

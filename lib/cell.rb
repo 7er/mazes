@@ -1,6 +1,13 @@
+# frozen_string_literal: true
+
+# En celle
 class Cell
   attr_reader :row, :column
   attr_accessor :north, :south, :east, :west
+
+  def inspect
+    "Cell(#{@row}, #{@column})"
+  end
 
   def initialize(row, column)
     @row, @column = row, column
@@ -8,25 +15,25 @@ class Cell
   end
 
   def distances
-    result = Hash.new
-    self.update_distances(self, 0, result)
+    result = {}
+    update_distances(self, 0, result)
     result
   end
 
   def update_distances(parent, distance, distances)
     distances[self] = distance
-    self.links.each do |cell|
+    links.each do |cell|
       cell.update_distances(self, distance + 1, distances) if parent != cell
     end
   end
 
-  def link(cell, bidi=true)
+  def link(cell, bidi = true)
     @links[cell] = true
     cell.link(self, false) if bidi
     self
   end
 
-  def unlink(cell, bidi=true)
+  def unlink(cell, bidi = true)
     @links.delete(cell)
     cell.unlink(self) if bidi
     self
@@ -54,5 +61,17 @@ class Cell
     x2 = (column + 1) * cell_size
     y2 = (row + 1) * cell_size
     CellRect.new(self, img, x1, y1, x2, y2)
+  end
+
+  def path_to(goal_cell, distances)
+    result = [goal_cell]
+    while result.last != self
+      current = result.last
+      next_cell = current.neighbors.find { |cell| distances[cell] < distances[current] }
+      raise 'Hell' if next_cell.nil?
+
+      result << next_cell
+    end
+    result.reverse
   end
 end
